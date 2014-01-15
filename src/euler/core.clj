@@ -70,7 +70,17 @@
 
 (defn problem-5
     []
-    (apply * (apply concat (map naive-factor (range 2 20)))))
+    (defn lcm
+        [numbers]
+        (if (empty? numbers)
+            nil
+            (let [current (first numbers)]
+            (conj (lcm (map #(if (divisor? current %) (/ % current) %)
+                                    (filter #(not= 1 %)
+                                            (rest numbers)))) current)
+            )))
+            
+    (apply * (lcm (range 2 20))))
         
 
 (defn -main
