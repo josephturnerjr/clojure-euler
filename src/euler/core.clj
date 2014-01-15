@@ -10,6 +10,20 @@
     [n]
     (def str-n (seq (str n)))
     (= str-n (reverse str-n)))
+
+(defn divisor?
+    [c n]
+    (if (== c 1)
+        false
+        (= 0 (mod n c))))
+
+(defn naive-factor
+    [n]
+    (if (= n 1)
+        nil
+        (let [factor (first (drop-while #(not (divisor? % n)) (drop-while #(< % 2) (range))))]
+            (conj (naive-factor (/ n factor)) factor))))
+
 (defn problem-1
     []
     (defn is-mult? [x]
@@ -35,7 +49,7 @@
     ; new hotness
     (apply + (filter even? (take-while #(< % 4000000) lazy-fib))))
 
-(defn problem-3
+(defn problem-25
     []
     (defn digits
         [n]
@@ -44,34 +58,27 @@
                 #(< (digits (second %)) 1000)
                 (map vector (range) lazy-fib)))))
 
-(defn divisor?
-    [c n]
-    (if (== c 1)
-        false
-        (= 0 (mod n c))))
-(defn problem-4
+(defn problem-3
     []
-    (defn naive-factor
-        [n]
-        (if (= n 1)
-            nil
-            (let [factor (first (drop-while #(not (divisor? % n)) (drop-while #(< % 2) (range))))]
-                (conj (naive-factor (/ n factor)) factor))))
     (apply max (naive-factor 600851475143)))
 
-(defn problem-5
+(defn problem-4
     []
     (apply max
         (for [x (range 100 1000) y (range x 1000) :when (is-palindrome? (* x y))]
              (* x y))))
+
+(defn problem-5
+    []
+    (apply * (apply concat (map naive-factor (range 2 20)))))
         
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
   (println "Problem 1:" (time (problem-1)))
   (println "Problem 2:" (time (problem-2)))
   (println "Problem 3:" (time (problem-3)))
   (println "Problem 4:" (time (problem-4)))
   (println "Problem 5:" (time (problem-5)))
+  (println "Problem 25:" (time (problem-25)))
 )
