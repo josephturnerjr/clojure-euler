@@ -2,24 +2,6 @@
   (:gen-class)
   (:use clojure.set))
 
-(defn pow
-    [x p]
-    (reduce * (repeat p x)))
-(defn square
-    [x]
-    (pow x 2))
-(defn sum
-    [coll]
-    (apply + coll))
-(defn product
-    [coll]
-    (apply * coll))
-(defn gcd
-    [x y]
-    (if (= y 0)
-        x
-        (recur y (mod x y))))
-
 (def lazy-fib
     (map first
         (iterate
@@ -372,10 +354,6 @@
         (list '())
         (let [others (subsets (rest s))]
             (concat others (map #(cons (first s) %) others)))))
-
-(defn problem 21
-    []
-    
 
 
 (defn -main
